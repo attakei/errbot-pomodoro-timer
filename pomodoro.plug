@@ -1,0 +1,9 @@
+[Core]
+Name = Pomodoro timer
+Module = pomodoro
+
+[Python]
+Version = 3
+
+[Documentation]
+Description = Simple pomodoro technique timer
