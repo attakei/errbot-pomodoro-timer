@@ -1,9 +1,9 @@
 [Core]
-Name = Pomodoro timer
+Name = Pomodoro
 Module = pomodoro
 
 [Python]
 Version = 3
 
 [Documentation]
-Description = Simple pomodoro technique timer
+Description = Simple pomodoro technique timer for self
