@@ -3,49 +3,41 @@ from __future__ import division, print_function, absolute_import
 """Pomodoro timer
 """
 from errbot import BotPlugin, botcmd
-from time import sleep
 
 
 class Pomodoro(BotPlugin):
-    WORK_SECS = 25 * 60
-    REST_SECS = 5 * 60
+    WORK_MIN = 25
+    REST_MIN = 5
 
     def activate(self):
         super().activate()
-        self['runners'] = []
+        self['timer'] = None
+        self['target'] = None
+        self.start_poller(60, self.pomodoro)
 
-    def pomodoro(self, user):
-        identifier = self.build_identifier(user)
-        self.send(identifier, "Let's go work!")
-        sleep(self.WORK_SECS)
-        if user not in self['runners']:
+    def pomodoro(self):
+        if self['timer'] is None:
             return
-        self.send(identifier, "Rest...")
-        sleep(self.REST_SECS)
+        time_counter = self['timer'] + 1
+        if time_counter >= self.WORK_MIN:
+            time_counter = -1 * self.REST_MIN
+            self.send(self['target'], "Please rest for about {} minutes".format(self.REST_MIN))
+        elif time_counter == 0:
+            self.send(self['target'], "Let's work you about {} minutes".format(self.WORK_MIN))
+        self['timer'] = time_counter
 
     @botcmd(name='pomodoro_start')
     def start(self, msg, args):
-        target = str(msg.frm) 
-        if target in self['runners']:
+        if self['timer'] is not None:
             return
-        targets = self['runners']
-        targets.append(target)
-        self['runners'] = targets
-        self.start_poller(
-            self.WORK_SECS + self.REST_SECS,
-            self.pomodoro,
-            (target, )
-        )
-        self.pomodoro(target)
+        yield 'Start timer'
+        self['timer'] = 0
+        self['target'] = msg.frm
 
     @botcmd(name='pomodoro_stop')
     def stop(self, msg, args):
-        target = str(msg.frm) 
-        if target not in self['runners']:
+        if self['timer'] is None:
             return
-        targets = self['runners']
-        targets.remove(target)
-        self['runners'] = targets
-        self.stop_poller(self.pomodoro, (target,))
-        identifier = self.build_identifier(target)
-        self.send(identifier, 'Timer stopped.')
+        yield 'Stop timer'
+        self['timer'] = None
+        self['target'] = None
