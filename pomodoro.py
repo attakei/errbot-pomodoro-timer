@@ -7,28 +7,45 @@ from time import sleep
 
 
 class Pomodoro(BotPlugin):
-    CONCENTRATE_SECS = 25 * 60
+    WORK_SECS = 25 * 60
     REST_SECS = 5 * 60
 
     def activate(self):
         super().activate()
-        self['timer'] = False
+        self['runners'] = []
+
+    def pomodoro(self, user):
+        identifier = self.build_identifier(user)
+        self.send(identifier, "Let's go work!")
+        sleep(self.WORK_SECS)
+        if user not in self['runners']:
+            return
+        self.send(identifier, "Rest...")
+        sleep(self.REST_SECS)
 
     @botcmd(name='pomodoro_start')
-    def start_pomodoro(self, msg, args):
-        if self['timer']:
+    def start(self, msg, args):
+        target = str(msg.frm) 
+        if target in self['runners']:
             return
-        self['timer'] = True
-        while self['timer']:
-            yield "Let's go concentration!!"
-            sleep(self.CONCENTRATE_SECS)
-            if not self['timer']:
-                break
-            yield "Rest ..."
-            sleep(self.REST_SECS)
+        targets = self['runners']
+        targets.append(target)
+        self['runners'] = targets
+        self.start_poller(
+            self.WORK_SECS + self.REST_SECS,
+            self.pomodoro,
+            (target, )
+        )
+        self.pomodoro(target)
 
     @botcmd(name='pomodoro_stop')
-    def stop_pomodoro(self, msg, args):
-        if self['timer']: 
-            self['timer'] = False
-            return 'Timer stopped.'
+    def stop(self, msg, args):
+        target = str(msg.frm) 
+        if target not in self['runners']:
+            return
+        targets = self['runners']
+        targets.remove(target)
+        self['runners'] = targets
+        self.stop_poller(self.pomodoro, (target,))
+        identifier = self.build_identifier(target)
+        self.send(identifier, 'Timer stopped.')
