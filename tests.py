@@ -20,3 +20,9 @@ class PomodoroPluginTests(object):
         testbot.push_message('!pomodoro_stop')
         plugin = self.fetch_plugin(testbot)
         assert plugin._timer == [None, None]
+
+    def test_start_and_stop(self, testbot):
+        testbot.push_message('!pomodoro_start')
+        testbot.push_message('!pomodoro_stpo')
+        plugin = self.fetch_plugin(testbot)
+        assert plugin._timer == [None, None]
