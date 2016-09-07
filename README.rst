@@ -1,11 +1,18 @@
 Pomodoro timer
 ==============
 
-.. image:: https://travis-ci.org/attakei/errbot-pomodoro-timer.svg?branch=master
-   :target: https://travis-ci.org/attakei/errbot-pomodoro-timer
+
+.. image:: https://img.shields.io/travis/attakei/errbot-pomodoro-timer/master.svg
+   :target: https://travis-ci.org/attakei/errbot-pomodoro-timer/
+
+.. image:: https://img.shields.io/badge/License-GPLv3-green.svg
+   :target: https://pypi.python.org/pypi/errbot
+   :alt: License
 
 
+It is Pomodoro timer plugin for ErrBot
 Support your life cycle with Pomdoro Technique.
+
 
 
 What is Pomdoro Technique?
@@ -49,4 +56,3 @@ Turn off timer
 .. code-block:: bash
 
    >>> !pomodoro stop
-
