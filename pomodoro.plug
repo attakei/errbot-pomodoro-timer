@@ -6,4 +6,4 @@ Module = pomodoro
 Version = 3
 
 [Documentation]
-Description = Simple pomodoro technique timer for self
+Description = Simple pomodoro technique timer kit
