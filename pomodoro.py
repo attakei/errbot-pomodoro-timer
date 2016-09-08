@@ -12,7 +12,7 @@ class Pomodoro(BotPlugin):
     def __init__(self, bot):
         super().__init__(bot)
         self._timer = [None, None]
-    
+
     def activate(self):
         super().activate()
         self.start_poller(60, self.pomodoro)
