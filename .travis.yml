@@ -5,11 +5,11 @@ python:
 install:
   - | 
     if [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then 
-      pip install -1 errbot<4.3
+      pip install -q 'errbot<4.3'
     fi
   - | 
     if [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then 
-      pip install -1 errbot>=4.3
+      pip install -q 'errbot>=4.3'
     fi
   - pip install -q pytest pytest-pep8 --use-wheel
   - pip install -q coverage coveralls --use-wheel
