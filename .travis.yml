@@ -3,7 +3,9 @@ python:
   - 2.7
   - 3.5
 install:
-  - pip install -q errbot pytest pytest-pep8 --use-wheel
+  - if $TRAVIS_PHP_VERSION = "2.7" ; pip install -1 errbot<4.3
+  - if $TRAVIS_PHP_VERSION = "3.5" ; pip install -1 errbot>=4.3
+  - pip install -q pytest pytest-pep8 --use-wheel
   - pip install -q coverage coveralls --use-wheel
 script:
   - coverage run --source pomodoro -m py.test --pep8
