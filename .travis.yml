@@ -3,8 +3,14 @@ python:
   - 2.7
   - 3.5
 install:
-  - if $TRAVIS_PHP_VERSION = "2.7" ; pip install -1 errbot<4.3
-  - if $TRAVIS_PHP_VERSION = "3.5" ; pip install -1 errbot>=4.3
+  - | 
+    if [ $TRAVIS_PHP_VERSION = "2.7" ] ; then 
+      pip install -1 errbot<4.3
+    fi
+  - | 
+    if [ $TRAVIS_PHP_VERSION = "3.5" ] ; then 
+      pip install -1 errbot>=4.3
+    fi
   - pip install -q pytest pytest-pep8 --use-wheel
   - pip install -q coverage coveralls --use-wheel
 script:
