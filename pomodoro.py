@@ -12,7 +12,7 @@ class Pomodoro(BotPlugin):
     def __init__(self, bot):
         super().__init__(bot)
         self._runners = {}
-    
+
     def activate(self):
         super().activate()
         self.start_poller(60, self.pomodoro)
@@ -25,7 +25,7 @@ class Pomodoro(BotPlugin):
                 counter = -1 * self.REST_MIN
                 message = "Please rest for about {} minutes".format(self.REST_MIN)
             elif counter == 0:
-            	message = "Let's work you about {} minutes".format(self.WORK_MIN)
+                message = "Let's work you about {} minutes".format(self.WORK_MIN)
             else:
                 message = None
             # Post having message
