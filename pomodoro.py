@@ -11,35 +11,41 @@ class Pomodoro(BotPlugin):
 
     def __init__(self, bot):
         super().__init__(bot)
-        self._timer = [None, None]
+        self._runners = {}
 
     def activate(self):
         super().activate()
         self.start_poller(60, self.pomodoro)
 
     def pomodoro(self):
-        time_counter = self._timer[0]
-        target = self._timer[1]
-        if time_counter is None:
-            return
-        time_counter += 1
-        if time_counter >= self.WORK_MIN:
-            time_counter = -1 * self.REST_MIN
-            self.send(target, "Please rest for about {} minutes".format(self.REST_MIN))
-        elif time_counter == 0:
-            self.send(target, "Let's work you about {} minutes".format(self.WORK_MIN))
-        self._timer[0] = time_counter
+        for runner, counter in self._runners.keys():
+            counter += 1
+            # Timer count events
+            if counter >= self.WORK_MIN:
+                counter = -1 * self.REST_MIN
+                message = "Please rest for about {} minutes".format(self.REST_MIN)
+            elif counter == 0:
+                message = "Let's work you about {} minutes".format(self.WORK_MIN)
+            else:
+                message = None
+            # Post having message
+            if message is not None:
+                identifier = self.build_identifier(runner)
+                self.send(identifier, message)
+            self._runners[runner] = counter
 
     @botcmd(name='pomodoro_start')
     def start(self, msg, args):
-        if self._timer != [None, None]:
+        runner = str(msg.frm)
+        if runner in self._runners:
             return
         yield 'Start timer'
-        self._timer = [0, msg.frm]
+        self._runners[runner] = 0
 
     @botcmd(name='pomodoro_stop')
     def stop(self, msg, args):
-        if self._timer == [None, None]:
+        runner = str(msg.frm)
+        if runner not in self._runners:
             return
         yield 'Stop timer'
-        self._timer = [None, None]
+        del self._runners[runner]

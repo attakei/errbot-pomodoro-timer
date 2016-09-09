@@ -13,16 +13,18 @@ class PomodoroPluginTests(object):
         testbot.push_message('!pomodoro_start')
         assert 'Start timer' in testbot.pop_message()
         plugin = self.fetch_plugin(testbot)
-        assert plugin._timer[0] == 0
-        assert isinstance(plugin._timer[1], Person) is True
+        assert len(plugin._runners) == 1
+        assert isinstance(list(plugin._runners.keys())[0], str) is True
+        id_ = testbot.bot.build_identifier(list(plugin._runners.keys())[0])
+        assert isinstance(id_, Person) is True
 
     def test_stop_not_started(self, testbot):
         testbot.push_message('!pomodoro_stop')
         plugin = self.fetch_plugin(testbot)
-        assert plugin._timer == [None, None]
+        assert plugin._runners == {}
 
     def test_start_and_stop(self, testbot):
         testbot.push_message('!pomodoro_start')
         testbot.push_message('!pomodoro_stpo')
         plugin = self.fetch_plugin(testbot)
-        assert plugin._timer == [None, None]
+        assert plugin._runners == {}
