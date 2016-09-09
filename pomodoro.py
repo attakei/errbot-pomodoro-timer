@@ -18,7 +18,7 @@ class Pomodoro(BotPlugin):
         self.start_poller(60, self.pomodoro)
 
     def pomodoro(self):
-        for runner, counter in self._runners.keys():
+        for runner, counter in self._runners.items():
             counter += 1
             # Timer count events
             if counter >= self.WORK_MIN:
@@ -27,7 +27,8 @@ class Pomodoro(BotPlugin):
             elif counter == 0:
                 message = "Let's work you about {} minutes".format(self.WORK_MIN)
             else:
-                message = None
+                message = "Working".format(self.WORK_MIN)
+                # message = None
             # Post having message
             if message is not None:
                 identifier = self.build_identifier(runner)
