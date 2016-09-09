@@ -27,8 +27,7 @@ class Pomodoro(BotPlugin):
             elif counter == 0:
                 message = "Let's work you about {} minutes".format(self.WORK_MIN)
             else:
-                message = "Working".format(self.WORK_MIN)
-                # message = None
+                message = None
             # Post having message
             if message is not None:
                 identifier = self.build_identifier(runner)
