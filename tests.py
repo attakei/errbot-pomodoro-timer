@@ -50,5 +50,5 @@ class PomodoroPluginTests(object):
         time.sleep(0.5)
         plugin = self.fetch_plugin(testbot)
         runner = list(plugin._runners.keys())[0]
-        [ plugin.pomodoro() for _ in range(25)]
+        [plugin.pomodoro() for _ in range(25)]
         assert plugin._runners[runner] == -5
