@@ -2,8 +2,12 @@ language: python
 python:
   - 3.5
   - 3.6
+env:
+  - ERRBOT_VERSION=4.3.7
+  - ERRBOT_VERSION=5.0.0
+
 install:
-  - pip install -q 'errbot>=4.3'
+  - pip install -q errbot==${ERRBOT_VERSION}
   - pip install -q pytest pytest-pep8 --use-wheel
   - pip install -q coverage coveralls --use-wheel
 script:
