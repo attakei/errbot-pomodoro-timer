@@ -9,12 +9,9 @@ class Pomodoro(BotPlugin):
     WORK_MIN = 25
     REST_MIN = 5
 
-    def __init__(self, bot):
-        super().__init__(bot)
-        self._runners = {}
-
     def activate(self):
         super().activate()
+        self._runners = {}
         self.start_poller(60, self.pomodoro)
 
     def pomodoro(self):
