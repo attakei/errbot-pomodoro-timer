@@ -5,6 +5,7 @@ python:
 env:
   - ERRBOT_VERSION=4.3.7
   - ERRBOT_VERSION=5.0.0
+  - ERRBOT_VERSION=5.0.1
 
 install:
   - pip install -q errbot==${ERRBOT_VERSION}
