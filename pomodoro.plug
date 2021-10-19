@@ -7,7 +7,6 @@ Version = 3
 
 [Errbot]
 Min = 4.3.0
-Max = 5.0.1
 
 [Documentation]
 Description = Simple pomodoro technique timer kit
